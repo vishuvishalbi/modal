@@ -1,5 +1,7 @@
 {
   "name": "modal",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
