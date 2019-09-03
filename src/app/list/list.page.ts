@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebaseService } from "../services/firebase.service";
 
 @Component({
   selector: 'app-list',
@@ -20,7 +21,14 @@ export class ListPage implements OnInit {
     'build'
   ];
   public items: Array<{ title: string; note: string; icon: string }> = [];
-  constructor() {
+  constructor(
+    private fbs: FirebaseService
+  ) {
+    this.fbs.getOrder()
+      .then((res) => {
+
+        console.log(this.snapshotToObject(res));
+      }, console.log);
     for (let i = 1; i < 11; i++) {
       this.items.push({
         title: 'Item ' + i,
@@ -29,7 +37,11 @@ export class ListPage implements OnInit {
       });
     }
   }
-
+  snapshotToObject(snapshot) {
+    let item = snapshot.val();
+    item.key = snapshot.key;
+    return item;
+  }
   ngOnInit() {
   }
   // add back when alpha.4 is out
