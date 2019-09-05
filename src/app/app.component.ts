@@ -20,6 +20,16 @@ export class AppComponent {
       title: 'List',
       url: '/list',
       icon: 'list'
+    },
+    {
+      title: 'Experiences',
+      url: '/experience',
+      icon: 'list'
+    },
+    {
+      title: 'Contacts',
+      url: '/contacts',
+      icon: 'contacts'
     }
   ];
 
@@ -34,7 +44,9 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      setTimeout(() => {
+        this.splashScreen.hide();
+      }, 4000);
     });
   }
 }

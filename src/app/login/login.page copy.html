@@ -1,0 +1,59 @@
+<ion-content padding="true" class="login" scroll="false">
+  <div style="text-align: center; display: block;">
+    <img src="/assets/images/modal-logo.png" class="logo">
+  </div>
+  <div class="container">
+    <div class="page-header">
+      <div class="page-header__title">
+        <h3>{{text}}</h3>
+      </div>
+      <div class="page-header__actions">
+        <div class="input">
+          <h3 class="phone_input" *ngIf="step === 'phone'">{{phone}}</h3>
+          <h3 class="phone_input" *ngIf="step === 'code'">{{code}}</h3>
+          <h3 class="phone_input" *ngIf="step === 'pin'">{{pin}}</h3>
+          <h3 class="phone_input" *ngIf="step === 'confirmPin'">{{pinConfirm}}</h3>
+          <h3 class="phone_input" *ngIf="step === 'login'">{{password}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="dial-pad">
+      <ul>
+        <li class="number" (click)="clicked(1)">1</li>
+        <li class="number" (click)="clicked(2)">2</li>
+        <li class="number" (click)="clicked(3)">3</li>
+      </ul>
+      <ul>
+        <li class="number" (click)="clicked(4)">4</li>
+        <li class="number" (click)="clicked(5)">5</li>
+        <li class="number" (click)="clicked(6)">6</li>
+      </ul>
+      <ul>
+        <li class="number" (click)="clicked(7)">7</li>
+        <li class="number" (click)="clicked(8)">8</li>
+        <li class="number" (click)="clicked(9)">9</li>
+      </ul>
+      <ul>
+        <li class="number hide">0</li>
+        <li class="number" (click)="clicked(0)">0</li>
+        <li class="number" (click)="delete()"><i class="ion-arrow-left-c"></i></li>
+      </ul>
+    </div>
+  </div>
+  <div class="actions">
+    <button (click)="lookupUser()" [ngClass]="{'disabled': phone.length < 10}" *ngIf="step === 'phone'">Next</button>
+    <button (click)="loginUser()" [ngClass]="{'disabled': password.length < 6}" *ngIf="step === 'login'">Login</button>
+    <button (click)="endVerify()" [ngClass]="{'disabled': code.length < 4}" *ngIf="step === 'code'">Verify</button>
+    <button (click)="confirmPin()" [ngClass]="{'disabled': pin.length < 6}" 
+    *ngIf="step === 'pin'">Next</button>
+    <button (click)="changePassword()"  [ngClass]="{'disabled': pinConfirm.length < 6}" *ngIf="step === 'confirmPin'">Confirm</button>
+  </div>
+</ion-content>
+
+<style>
+  .login .scroll-content {
+    display: table !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>

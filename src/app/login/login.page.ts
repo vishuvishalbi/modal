@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { MenuController, LoadingController } from '@ionic/angular';
+import { MenuController, LoadingController, NavController } from '@ionic/angular';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
@@ -25,16 +25,14 @@ export class LoginPage {
     constructor(
         private menu: MenuController,
         private loader: LoadingController,
-        private screenOrientation: ScreenOrientation
+        private screenOrientation: ScreenOrientation,
+        private navCtrl:NavController,
     ) {
         // get current
         console.log(this.screenOrientation.type); // logs the current orientation, example: 'landscape'
 
         // set to landscape
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
-
-        // allow user rotate
-        // this.screenOrientation.unlock();
 
         // detect orientation changes
         this.screenOrientation.onChange().subscribe(
@@ -43,7 +41,7 @@ export class LoginPage {
             }
         );
         this.menu.enable(false);
-        this.initiateLoader();
+
     }
 
     clicked(number) {
@@ -54,14 +52,43 @@ export class LoginPage {
         this.phone.substring(0, this.phone.length - 1);
     }
 
-    lookupUser() {
-        this.l.present();
+    async lookupUser() {
+        await this.showLoader('Please wait!');
+        setTimeout(()=> {
+            // allow menu
+            this.menu.enable(true);
+            // allow user rotate
+            this.screenOrientation.unlock();
+            this.hideLoader();
+            this.navCtrl.navigateForward('home');
+        },4000)
     }
 
-    async initiateLoader() {
-        this.l = await this.loader.create({
-            message: 'Please wait'
-        })
+    loginUser() {
 
+    }
+
+    endVerify() {
+
+    }
+
+    confirmPin() {
+
+    }
+
+    changePassword() {
+            
+    }
+
+    async showLoader(message) {
+        this.l = await this.loader.create({
+            message
+        });
+        this.l.present();
+
+    }
+
+    hideLoader(){
+        this.l.dismiss();
     }
 }

@@ -21,21 +21,18 @@ export class ListPage implements OnInit {
     'build'
   ];
   public items: Array<{ title: string; note: string; icon: string }> = [];
+  public ids:any;
+  public users:any;
   constructor(
     private fbs: FirebaseService
   ) {
     this.fbs.getOrder()
       .then((res) => {
-
-        console.log(this.snapshotToObject(res));
+        this.users = this.snapshotToObject(res);
+        this.ids = Object.keys(this.users);
+        
       }, console.log);
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+
   }
   snapshotToObject(snapshot) {
     let item = snapshot.val();

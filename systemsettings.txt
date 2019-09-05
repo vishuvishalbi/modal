@@ -1,0 +1,17 @@
+echo 'export PATH=/Users/vishu/.npm-global/bin/' >> ~/.bash_profile
+
+echo 'export ANDROID_HOME=/Users/$USER/Library/Android/sdk' >> ~/.bash_profile
+echo 'export PATH=/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/29.0.2' >> ~/.bash_profile
+
+/usr/bin:/usr/sbin:/bin:/sbin
+
+
+rm modal-release-unsigned.apk
+rm modal.apk
+cp /Users/vishu/code/modal/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ./modal-release-unsigned.apk
+
+keytool -genkey -v -keystore my-release-key.keystore -alias modal -keyalg RSA -keysize 2048 -validity 10000
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore modal-release-unsigned.apk modal
+123456
+/Users/vishu/Library/Android/sdk/build-tools/29.0.2/zipalign -v 4 modal-release-unsigned.apk modal.apk
