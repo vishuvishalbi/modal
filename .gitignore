@@ -25,6 +25,8 @@ node_modules/
 tmp/
 temp/
 platforms/
+platforms
+platforms/*
 resources/
 resources
 resources/*
