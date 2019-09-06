@@ -6,7 +6,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
     selector: 'app-login',
     templateUrl: './login.page.html',
     styleUrls: ['./login.page.css'],
-    encapsulation: ViewEncapsulation.None
+    // encapsulation: ViewEncapsulation.None
 })
 export class LoginPage {
 

@@ -19,8 +19,8 @@ const routes: Routes = [
     path: 'list',
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   },
-  { path: 'experience', loadChildren: './experience/experience.module#ExperiencePageModule' },
-  { path: 'contact', loadChildren: './contact/contact.module#ContactPageModule' }
+  { path: 'experiences', loadChildren: './experience/experience.module#ExperiencePageModule' },
+  { path: 'contacts', loadChildren: './contact/contact.module#ContactPageModule' }
 ];
 
 @NgModule({
@@ -29,4 +29,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

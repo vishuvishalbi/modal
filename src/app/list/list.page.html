@@ -1,20 +1,28 @@
-<ion-header>
+<ion-header >
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      List
+      <h1 class="title"><img src="../../assets/images/logo-no-text.png" style="height: 32px; margin-top: 5px;"></h1>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let i of ids">
-      {{users[i].name}}
-      <div class="item-note" slot="end">
-        {{users[i].email}}
-      </div>
+    <ion-list-header>
+      User List
+    </ion-list-header>
+    <ion-item *ngFor="let i of users| keyvalue">
+      <ion-avatar slot="start">
+        <img src="../../assets/icon/favicon.png">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{i.value?.name}}</h2>
+        <h3>{{i.value?.email}}</h3>
+        <h3>{{i.value?.phone}}</h3>
+        <p>{{i.value?.role}}</p>
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -22,14 +22,59 @@ export class AppComponent {
       icon: 'list'
     },
     {
-      title: 'Experiences',
-      url: '/experience',
-      icon: 'list'
+      title: 'Login',
+      icon: 'list',
+      url: '/login',
     },
+    // {
+    //   title: 'Logout',
+    //   icon: 'list',
+    //   url: '/logout',
+    // },
     {
-      title: 'Contacts',
+      title: 'Experiences',
+      icon: 'list',
+      url: '/experiences',
+    },
+    // {
+    //   title: 'Trip Details',
+    //   icon: 'list',
+    //   url: "/experience/:orderId",
+    // },
+    // {
+    //   title: 'guests',
+    //   icon: 'list',
+    //   url: "/guests",
+    // },
+    // {
+    //   title: 'schedule',
+    //   icon: 'list',
+    //   url: "/schedule",
+    // },
+    // {
+    //   title: 'wall',
+    //   icon: 'list',
+    //   url: "/wall",
+    // },
+    // {
+    //   title: 'media',
+    //   icon: 'list',
+    //   url: "/media",
+    // },
+    // {
+    //   title: '',
+    //   icon: 'list',
+    //   url: '/tickets',
+    // },
+    // {
+    //   title: 'profile',
+    //   icon: 'list',
+    //   url: '/profile',
+    // },
+    {
+      title: 'contacts',
+      icon: 'contacts',
       url: '/contacts',
-      icon: 'contacts'
     }
   ];
 

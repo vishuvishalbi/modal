@@ -1,15 +1,28 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>contact</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <h1 class="title"><img src="../../assets/images/logo-no-text.png" style="height: 32px; margin-top: 5px;"></h1>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-list>
+    <ion-list-header>
+      User List
+    </ion-list-header>
     <ion-item *ngFor="let contact of everybody | async">
-      {{contact?.displayName}} 
-      <p class="item-note" slot="end" *ngFor="let num of contact?.phoneNumbers">
-        {{num.value}}
-      </p>
-    </ion-item>    
+      <ion-avatar slot="start">
+        <img src="../../assets/icon/favicon.png">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{contact?.displayName}}</h2>
+        <p *ngFor="let num of contact?.phoneNumbers">
+          {{num.value}}
+        </p>
+      </ion-label>
+    </ion-item>
   </ion-list>
 </ion-content>

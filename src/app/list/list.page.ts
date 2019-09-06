@@ -26,19 +26,13 @@ export class ListPage implements OnInit {
   constructor(
     private fbs: FirebaseService
   ) {
-    this.fbs.getOrder()
+    this.fbs.getUsers()
       .then((res) => {
-        this.users = this.snapshotToObject(res);
-        this.ids = Object.keys(this.users);
-        
+        this.users = res;
       }, console.log);
 
   }
-  snapshotToObject(snapshot) {
-    let item = snapshot.val();
-    item.key = snapshot.key;
-    return item;
-  }
+  
   ngOnInit() {
   }
   // add back when alpha.4 is out
