@@ -11,7 +11,7 @@
 <ion-content>
   <ion-card *ngFor="let item of orders | keyvalue">
     <ion-card-header [routerLink]="'orders/' + item.value?.key">
-      <ion-card-subtitle>{{item.value?.startTime | date:fomat:'MM/D/YYYY' }}</ion-card-subtitle>
+      <ion-card-subtitle>{{item.value?.startTime | date:'MM/D/YYYY' }}</ion-card-subtitle>
       <ion-card-title>{{item.value?.tripName}}</ion-card-title>
     </ion-card-header>
 
