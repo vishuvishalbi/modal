@@ -29,6 +29,19 @@
     margin-left: 4em;
 }
 
-ion-toolbar .toolbar-background {
-    background: linear-gradient(to right, #008fcd 0%, #0077b5 100%) !important;
+ion-toolbar {
+    --background: linear-gradient(to right, #008fcd 0%, #0077b5 100%) !important;
+}
+
+ion-menu-button {
+    --color:#fff;
+    color:#fff;
+}
+
+ion-content {
+    --background:#e8e8e8;
+}
+
+ion-card {
+    --background:#fff;
 }
