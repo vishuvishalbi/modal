@@ -3,6 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+    API_URL: 'http://alpha.modal.me',
+    START_VERIFY: '/authy/startVerify',
+    START_ACTIVATE: '/startActivate',
     production: false,
     firebase: {
         apiKey: "AIzaSyBah75AjrcGvkGIPZKHTjoo9jY1Zu8gDuc",

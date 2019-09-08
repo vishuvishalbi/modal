@@ -53,20 +53,20 @@ export class FirebaseService {
       firebase.database().ref(`orders/`).orderByChild('createdBy').equalTo(id).on('value', (resp) => {
         let result = this.snapshotToObject(resp);
         let orders = []
-        let t = { user: {}, key :'' };
+        let t = { user: {}, key: '' };
 
         Object.keys(result).map((v) => {
           if (typeof result[v] != 'object') {
             return;
           }
-          t = Object.assign({ user: {}, key:'' }, result[v]);
+          t = Object.assign({ user: {}, key: '' }, result[v]);
           t.user = this.getUserName(result[v].createdBy);
           t.key = v;
           orders.push(result[v]);
         });
         console.log({ orders })
         resolve(orders);
-      });
+      })
     })
   }
 
@@ -90,60 +90,10 @@ export class FirebaseService {
   }
 
 
-  // getTasks() {
-  //   return new Promise<any>((resolve, reject) => {
-  //     this.afAuth.user.subscribe(currentUser => {
-  //       if (currentUser) {
-  //         this.snapshotChangesSubscription = this.afs.collection('people').doc(currentUser.uid).collection('tasks').snapshotChanges();
-  //         resolve(this.snapshotChangesSubscription);
-  //       }
-  //     })
-  //   })
-  // }
-
-  // getTask(taskId) {
-  //   return new Promise<any>((resolve, reject) => {
-  //     this.afAuth.user.subscribe(currentUser => {
-  //       if (currentUser) {
-  //         this.snapshotChangesSubscription = this.afs.doc<any>('people/' + currentUser.uid + '/tasks/' + taskId).valueChanges()
-  //           .subscribe(snapshots => {
-  //             resolve(snapshots);
-  //           }, err => {
-  //             reject(err)
-  //           })
-  //       }
-  //     })
-  //   });
-  // }
-
   unsubscribeOnLogOut() {
     //remember to unsubscribe from the snapshotChanges
     this.snapshotChangesSubscription.unsubscribe();
   }
-
-  // updateTask(taskKey, value) {
-  //   return new Promise<any>((resolve, reject) => {
-  //     let currentUser = firebase.auth().currentUser;
-  //     this.afs.collection('people').doc(currentUser.uid).collection('tasks').doc(taskKey).set(value)
-  //       .then(
-  //         res => resolve(res),
-  //         err => reject(err)
-  //       )
-  //   })
-  // }
-
-  // deleteTask(taskKey) {
-  //   return new Promise<any>((resolve, reject) => {
-  //     let currentUser = firebase.auth().currentUser;
-  //     this.afs.collection('people').doc(currentUser.uid).collection('tasks').doc(taskKey).delete()
-  //       .then(
-  //         res => resolve(res),
-  //         err => reject(err)
-  //       )
-  //   })
-  // }
-
-  // creaß
 
   encodeImageUri(imageUri, callback) {
     var c = document.createElement('canvas');
@@ -172,6 +122,19 @@ export class FirebaseService {
           }, err => {
             reject(err);
           })
+      })
+    })
+  }
+
+  async getCurrentUser() {
+    return new Promise <any>((resolve, reject) => {
+      firebase.auth().onAuthStateChanged( user => {
+        if(user) {
+          console.log('user ', user);
+          resolve(user);
+          return;
+        }
+        reject('User not found!');
       })
     })
   }

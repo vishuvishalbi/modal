@@ -15,6 +15,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { Contacts } from '@ionic-native/contacts';
+import { HTTP } from '@ionic-native/http/ngx';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { Contacts } from '@ionic-native/contacts';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Contacts,
+    HTTP
   ],
   bootstrap: [AppComponent]
 })
