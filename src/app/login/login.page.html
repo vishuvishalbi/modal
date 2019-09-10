@@ -12,10 +12,19 @@
             <h3 class="phone_input" *ngIf="step === 'phone'">
                 <ion-input type="tel" [(ngModel)]="phone" ></ion-input>
             </h3>
-            <h3 class="phone_input" *ngIf="step === 'code'">{{code}}</h3>
+            <h3 class="phone_input" *ngIf="step === 'code'">
+              <ion-input type="tel" [(ngModel)]="code"></ion-input>
+            </h3>
+            <h3 class="phone_input" *ngIf="step === 'confirmPin'">
+              <ion-input type="tel" [(ngModel)]="pinConfirm"></ion-input>
+            </h3>
+            <h3 class="phone_input" *ngIf="step === 'login'">
+              <ion-input type="tel" [(ngModel)]="password"></ion-input>
+            </h3>
+            <!-- <h3 class="phone_input" *ngIf="step === 'code'">{{code}}</h3>
             <h3 class="phone_input" *ngIf="step === 'pin'">{{pin}}</h3>
             <h3 class="phone_input" *ngIf="step === 'confirmPin'">{{pinConfirm}}</h3>
-            <h3 class="phone_input" *ngIf="step === 'login'">{{password}}</h3>
+            <h3 class="phone_input" *ngIf="step === 'login'">{{password}}</h3> -->
           </div>
         </div>
       </div>

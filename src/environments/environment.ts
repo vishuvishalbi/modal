@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    API_URL: 'http://alpha.modal.me',
+    API_URL: 'http://localhost:3000',
     START_VERIFY: '/authy/startVerify',
     START_ACTIVATE: '/startActivate',
     production: false,
