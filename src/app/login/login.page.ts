@@ -76,13 +76,17 @@ export class LoginPage {
 
 
         this.auth.lookupUser(this.phone).subscribe(result => {
-            this.step = result.step;
-            this.text = result.message;
+
+            if (result) {
+                this.auth.sendOtp(this.phone).subscribe(res => {
+                    this.step = result.step;
+                    this.text = result.text;
+                });
+            }
             console.log('looking up', result)
-        },
-            err => {
-                console.error('error', err)
-            });
+        }, err => {
+            console.error('error', err)
+        });
     }
 
     loginUser() {

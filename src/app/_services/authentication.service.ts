@@ -27,34 +27,40 @@ export class AuthenticationService {
     }
 
     lookupUser(phone) {
-        return this.http.post<any>(`${environment.API_URL}/lookupUser`, { phone: phone })
-            .pipe(switchMap((respo: any) => {
-
-                if (respo) {
-                    let responseObject = { step: 'phone', message: 'user dosen\'t exists something', status: false }
-                    return this.http.post(`${environment.API_URL}/authy/startVerify`, { phone })
-                        .pipe(tap((res: any) => {
-                            if (res.success) {
-                                res = { step: 'code', message: 'Enter your verification code', status: true };
-                            } else {
-                                return responseObject
-                            }
-                        }, err => {
-                            console.log('error on authy startverify', err);
-                            return responseObject
-                        }));
-                } else {
-                    return { step: 'login', message: 'Enter you pin', status: true };
-                }
-            }), catchError(err => {
-                return err;
-            }));
-
+        return this.http.post<any>(`${environment.API_URL}/lookupUser`, { phone: phone });
     }
 
+    sendOtp(phone) {
+        return this.http.post(`${environment.API_URL}/authy/startVerify`, { phone: phone })
+            .pipe(tap((res: any) => {
+                if (res.success) {
+                    return { step: 'code', text: 'Enter your verification code', status: true };
+                }
+                return { status: false, step: 'phone', text: 'Enter your phone' }
+            }, err => {
+                console.log('error on authy startverify', err);
+                return { status: false, step: 'phone', text: 'Enter your phone' }
+            }));
+    }
+
+    verifyOtp(phone, otp) {
+        return this.http.post<any>(`${environment.API_URL}/authy/endVerify`, { phone: phone, otp: otp })
+            .pipe(tap((res) => {
+                if (res.success) {
+                    return { step: 'pin', text: 'Excellent! Now, Create your PIN', status: true };
+                }
+                return { status: false, step: 'code', text: 'Verification code is incorrect' }
+            }, err => {
+                console.log('error on authy startverify', err);
+                return { status: false, step: 'phone', text: 'Enter your phone' }
+            }));
+    }
+
+
+
     login(phone, password) {
-        const headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this.http.post<any>(`${environment.API_URL}/startActivate`, { phone: Number(phone) }, { headers, responseType: 'text' })
+        // const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.post<any>(`${environment.API_URL}/startActivate`, { phone: Number(phone) })
             .pipe(tap(response => {
                 // return response;
                 console.log('response', response)
@@ -65,20 +71,20 @@ export class AuthenticationService {
 
                                 // Get current user profile
                                 this.firebaseService.getCurrentUser(userObj.uid).then(function (profile) {
-                                    return { step: 'phone', message: 'Enter your phone number', status: true }
+                                    return { step: 'phone', text: 'Enter your phone number', status: true }
                                     // this.navCtrl.navigateForward('experiences');
                                 }).catch(async err => {
                                     console.log('service error1', err)
-                                    return { step: 'phone', message: 'Enter your phone number', status: false }
+                                    return { step: 'phone', text: 'Enter your phone number', status: false }
                                 });
                             }).catch(err => {
                                 console.log('service error2', err)
-                                return { step: 'phone', message: 'Enter your phone number', status: false }
+                                return { step: 'phone', text: 'Enter your phone number', status: false }
                             })
                     })
                     .catch(function (err) {
                         console.log('service error3', err)
-                        return { step: 'phone', message: 'Enter your phone number', status: false }
+                        return { step: 'phone', text: 'Enter your phone number', status: false }
                     })
             }, error => {
                 return { error, status: false };
@@ -95,26 +101,26 @@ export class AuthenticationService {
 
                                 // Get current user profile
                                 this.firebaseService.getCurrentUser(userObj.uid).then(function (profile) {
-                                    return { step: 'phone', message: 'Enter your phone number', status: true }
+                                    return { step: 'phone', text: 'Enter your phone number', status: true }
                                     // this.navCtrl.navigateForward('experiences');
                                 }).catch(async err => {
                                     console.log('service error1', err)
-                                    return { step: 'phone', message: 'Enter your phone number', status: false }
+                                    return { step: 'phone', text: 'Enter your phone number', status: false }
                                 });
                             }).catch(err => {
                                 console.log('service error2', err)
-                                return { step: 'phone', message: 'Enter your phone number', status: false }
+                                return { step: 'phone', text: 'Enter your phone number', status: false }
                             })
                     })
                     .catch(function (err) {
                         console.log('service error3', err)
-                        return { step: 'phone', message: 'Enter your phone number', status: false }
+                        return { step: 'phone', text: 'Enter your phone number', status: false }
                     })
 
             }, err => {
 
                 console.log('service error4', err)
-                return { step: 'phone', message: 'Enter your phone number', status: false }
+                return { step: 'phone', text: 'Enter your phone number', status: false }
             }))
     }
 
