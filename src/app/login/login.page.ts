@@ -5,6 +5,7 @@ import { FirebaseService } from '../_services/firebase.service';
 import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../_services/authentication.service';
 let { API_URL, START_VERIFY, START_ACTIVATE } = environment;
+import * as firebase from "firebase/app";
 
 @Component({
     selector: 'app-login',
@@ -25,18 +26,28 @@ export class LoginPage {
     public userObj = {};
     public step1 = true;
     private l: any;
-
+    private recaptchaVerifier: any;
     constructor(
         private menu: MenuController,
         private loader: LoadingController,
         private screenOrientation: ScreenOrientation,
         private navCtrl: NavController,
-        private firebase: FirebaseService,
+        private firebaseService: FirebaseService,
         private alert: AlertController,
         private auth: AuthenticationService,
     ) {
         this.loginScreenChanges();
-        this.firebase.getCurrentUser()
+        // this.firebaseService.getCurrentUser();
+        setTimeout(() => {
+
+            this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+                'size': 'invisible',
+                'callback': function (response) {
+                    console.log('recaptcha', response)
+                    // reCAPTCHA solved, allow signInWithPhoneNumber.
+                }
+            });
+        }, 1000);
     }
 
     loginScreenChanges(opposite = false) {
@@ -74,26 +85,24 @@ export class LoginPage {
 
     async lookupUser() {
 
-
-        this.auth.lookupUser(this.phone).subscribe(result => {
-
-            if (result) {
-                this.auth.sendOtp(this.phone).subscribe(res => {
-                    this.step = result.step;
-                    this.text = result.text;
-                });
-            }
-            console.log('looking up', result)
-        }, err => {
-            console.error('error', err)
-        });
+        this.auth.lookupUser(this.phone, this.recaptchaVerifier).then((result:any) =>{
+            console.log('after lookup user', result)
+            this.step = result.step;
+            this.text = result.text;
+        })
+        .catch(err => {
+            console.error('error controller',err)
+        })
     }
 
     loginUser() {
         this.auth.login(this.phone, this.password)
-            .subscribe(response => {
+            .then(response => {
                 console.log('getting response', response)
-            }, console.log);
+            })
+            .catch(err => {
+                console.error('error', err)
+            });
     }
 
     endVerify() {

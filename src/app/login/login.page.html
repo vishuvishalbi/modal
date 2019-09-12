@@ -52,13 +52,14 @@
       </div> -->
     </div>
     <div class="actions">
-      <button (click)="lookupUser()" [ngClass]="{'disabled': phone.length < 10}" *ngIf="step === 'phone'">Next</button>
+      <button  (click)="lookupUser()" [ngClass]="{'disabled': phone.length < 10}" *ngIf="step === 'phone'">Next</button>
       <button (click)="loginUser()" [ngClass]="{'disabled': password.length < 6}" *ngIf="step === 'login'">Login</button>
       <button (click)="endVerify()" [ngClass]="{'disabled': code.length < 4}" *ngIf="step === 'code'">Verify</button>
       <button (click)="confirmPin()" [ngClass]="{'disabled': pin.length < 6}" 
       *ngIf="step === 'pin'">Next</button>
       <button (click)="changePassword()"  [ngClass]="{'disabled': pinConfirm.length < 6}" *ngIf="step === 'confirmPin'">Confirm</button>
     </div>
+    <div id="sign-in-button"></div>
   </ion-content>
   
   <style>
