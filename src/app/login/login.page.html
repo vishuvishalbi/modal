@@ -15,6 +15,9 @@
             <h3 class="phone_input" *ngIf="step === 'code'">
               <ion-input type="tel" [(ngModel)]="code"></ion-input>
             </h3>
+            <h3 class="phone_input" *ngIf="step === 'pin'">
+              <ion-input type="tel" [(ngModel)]="pin"></ion-input>
+            </h3>
             <h3 class="phone_input" *ngIf="step === 'confirmPin'">
               <ion-input type="tel" [(ngModel)]="pinConfirm"></ion-input>
             </h3>

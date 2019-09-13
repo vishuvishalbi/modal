@@ -11,4 +11,8 @@ export class UserService {
     getAll() {
         return this.http.get<User[]>(`${environment.API_URL}/users`);
     }
+
+    updatePassword(body) {
+        return this.http.post<any>(`${environment.API_URL}/firebase/updateUser`, body);
+    }
 }
