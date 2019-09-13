@@ -4,6 +4,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { FirebaseService } from '../_services/firebase.service';
 import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../_services/authentication.service';
+import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
 let { API_URL, START_VERIFY, START_ACTIVATE } = environment;
 import * as firebase from "firebase/app";
 
@@ -20,13 +21,14 @@ export class LoginPage {
     public code = '';
     public pin = '';
     public pinConfirm = '';
-    public password = '';
+    public password:number;
     public step = 'phone';
     public newUser = {};
     public userObj = {};
     public step1 = true;
     private l: any;
     private recaptchaVerifier: any;
+    private id:any;
     constructor(
         private menu: MenuController,
         private loader: LoadingController,
@@ -35,19 +37,21 @@ export class LoginPage {
         private firebaseService: FirebaseService,
         private alert: AlertController,
         private auth: AuthenticationService,
+        private fbn: FirebaseAuthentication
     ) {
         this.loginScreenChanges();
         // this.firebaseService.getCurrentUser();
-        setTimeout(() => {
+        // setTimeout(() => {
 
-            this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
-                'size': 'invisible',
-                'callback': function (response) {
-                    console.log('recaptcha', response)
-                    // reCAPTCHA solved, allow signInWithPhoneNumber.
-                }
-            });
-        }, 1000);
+        //     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
+        //         'size': 'invisible',
+        //         'callback': function (response) {
+        //             console.log('recaptcha', response)
+        //             // reCAPTCHA solved, allow signInWithPhoneNumber.
+        //         }
+        //     });
+        // }, 1000);
+        // this.fbn.verifyPhoneNumber('+91'+ this.phone,3000).then(console.log).catch(console.error);
     }
 
     loginScreenChanges(opposite = false) {
@@ -84,29 +88,23 @@ export class LoginPage {
     }
 
     async lookupUser() {
+        this.fbn.verifyPhoneNumber("+91"+this.phone,2).then(id => {
+            this.id = id;
+            this.step = "code";
+            this.text = 'enter otp';
+        }).catch(console.log)
 
-        this.auth.lookupUser(this.phone, this.recaptchaVerifier).then((result:any) =>{
-            console.log('after lookup user', result)
-            this.step = result.step;
-            this.text = result.text;
+    }
+
+    verify() {
+
+        this.fbn.signInWithVerificationId(this.id,this.password).then(result=> {
+            this.step="confirmPin";
+            this.text="Please enter new pin"
         })
         .catch(err => {
-            console.error('error controller',err)
-        })
-    }
 
-    loginUser() {
-        this.auth.login(this.phone, this.password)
-            .then(response => {
-                console.log('getting response', response)
-            })
-            .catch(err => {
-                console.error('error', err)
-            });
-    }
-
-    endVerify() {
-
+        });
     }
 
     confirmPin() {

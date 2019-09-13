@@ -8,10 +8,18 @@ echo 'export PATH=/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:${PATH}:$ANDROID_
 
 rm modal-release-unsigned.apk
 rm modal.apk
-cp /Users/vishu/code/modal/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ./modal-release-unsigned.apk
+cp ./platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ./modal-release-unsigned.apk
+
+keytool -genkey -v -keystore modal.keystore -alias modal.me -keyalg RSA -keysize 2048 -validity 1000
 
 keytool -genkey -v -keystore my-release-key.keystore -alias modal -keyalg RSA -keysize 2048 -validity 10000
+
+keytool -importkeystore -srckeystore modal.keystore -destkeystore modal.keystore -deststoretype pkcs12
 
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore modal-release-unsigned.apk modal
 123456
 /Users/vishu/Library/Android/sdk/build-tools/29.0.2/zipalign -v 4 modal-release-unsigned.apk modal.apk
+
+keytool -list -v -keystore modal.keystore -alias modal.me
+keytool -list -v -keystore my-release-key.keystore -alias modal
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore modal-release-unsigned.apk modal

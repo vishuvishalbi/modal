@@ -29,6 +29,8 @@ export class AuthenticationService {
     }
 
     lookupUser(phone, appVerifier) {
+
+        
         return new Promise((resolve, reject) => {
 
             this.http.post<any>(`${environment.API_URL}/lookupUser`, { phone: phone }).subscribe(result1 => {

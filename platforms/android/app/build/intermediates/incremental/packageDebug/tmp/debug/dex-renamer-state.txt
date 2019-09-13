@@ -1,4 +1,4 @@
-#Fri Sep 06 02:54:37 IST 2019
+#Sat Sep 14 00:49:17 IST 2019
 base.0=/Users/vishu/code/modal/platforms/android/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex
