@@ -22,7 +22,9 @@ const routes: Routes = [
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   },
   { path: 'experiences', loadChildren: './experience/experience.module#ExperiencePageModule' },
-  { path: 'contacts', loadChildren: './contact/contact.module#ContactPageModule' }
+  { path: 'contacts', loadChildren: './contact/contact.module#ContactPageModule' },
+  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' }
+
 ];
 
 @NgModule({

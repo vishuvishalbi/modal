@@ -41,19 +41,24 @@ export class LoginPage {
         private userServices: UserService
     ) {
         this.loginScreenChanges();
-        // this.firebaseService.getCurrentUser();
+        this.firebaseService.getCurrentUser();
         this.fbn.onAuthStateChanged()
             .subscribe(userInfo => {
-                if (userInfo && userInfo.hasOwnProperty('role')) {
-
+                console.log('onAuthStateChanged > success', userInfo);
+                if (userInfo) {
                     // user was signed in
                     console.log('user was signed in', userInfo);
+                    this.loginScreenChanges(true);
+                    this.navCtrl.navigateForward(['experiences']);
                 } else if (!this.usignout) {
                     // this.signout();
                 } else {
                     // user was signed out
                     console.log('user was signed out')
                 }
+            }, err => {
+                console.log('onAuthStateChanged > error', err);
+
             });
         // this.fbn.verifyPhoneNumber('+91'+ this.phone,3000).then(console.log).catch(console.error);
     }
@@ -140,6 +145,7 @@ export class LoginPage {
         this.fbn.verifyPhoneNumber("+1" + this.phone, 30000).then(id => {
             console.log('sendOtp > verifyPhoneNumber > then')
             this.id = id;
+            console.log('verification id',id)
             this.step = "code";
             this.text = 'Enter your verification code';
             x.dismiss();
@@ -161,14 +167,14 @@ export class LoginPage {
         x.present();
         console.log('verify', this.id)
         this.fbn.signInWithVerificationId(this.id, this.code).then(result => {
+            x.dismiss();
             console.log('verify > signInWithVerificationId > then')
             this.step = "pin";
             this.text = "Excellent! Now, Create your PIN"
-            this.hideLoader();
         }).catch(async err => {
             console.log('verify > signInWithVerificationId > catch');
             console.log('error', err);
-            this.hideLoader();
+            x.dismiss();
             this.alert.create({
                 header: 'Verification code is incorrect',
                 message: 'please try again!',
@@ -183,21 +189,38 @@ export class LoginPage {
     }
 
     async changePassword() {
+        console.log('changesPassword')
         if (this.pin == this.pinConfirm) {
+            console.log('changesPassword > validate')
             let key = Object.keys(this.userObj)[0];
-            this.userServices.updatePassword({ uid: key, password: this.pin }).subscribe(result => {
-                firebase.database().ref('user/' + key).update({ tmpPass: null })
-                    .then(result => {
-                        this.password = this.pin;
-                        this.loginUser();
-                    })
-            }, err => {
-                this.alert.create({
-                    header: 'Opps!',
-                    message: 'please try again!',
-                    buttons: ['OK']
-                }).then(x => x.present());
-            })
+
+            firebase.database().ref('user/' + key).update({ tmpPass: null })
+                .then(result => {
+                    this.password = this.pin;
+                    console.log('changesPassword > updatePassword > firebase > success');
+                    this.loginUser();
+                }).catch(err => {
+                    console.log('changesPassword > updatePassword > firebase > err', err);
+                })
+
+            // this.userServices.updatePassword({ uid: key, password: this.pin }).subscribe(result => {
+            //     console.log('changesPassword > updatePassword > subscribe')
+            //     firebase.database().ref('user/' + key).update({ tmpPass: null })
+            //     .then(result => {
+            //         this.password = this.pin;
+            //         console.log('changesPassword > updatePassword > firebase > success');
+            //         this.loginUser();
+            //     }).catch(err => {
+            //         console.log('changesPassword > updatePassword > firebase > err', err);
+            //     })
+            // }, err => {
+            //     console.log('changesPassword > updatePassword > error')
+            //     this.alert.create({
+            //         header: 'Opps!',
+            //         message: 'please try again!',
+            //         buttons: ['OK']
+            //     }).then(x => x.present());
+            // })
         } else {
             this.alert.create({
                 header: 'PINs do not match',
@@ -208,15 +231,21 @@ export class LoginPage {
     }
 
     loginUser() {
+        console.log('loginUser', this.newUser, this.password);
+        
         this.fbn.signInWithEmailAndPassword(this.newUser.email, this.password)
-            .then(result => {
-                this.step = 'phone';
-                this.text = 'Enter your phone number';
-                this.phone = '';
-                this.password = '';
-                this.navCtrl.navigateForward(['experiences']);
-            })
-            .catch(err => {
+        .then(result => {
+            console.log('loginUser > signInWithEmailAndPassword > success');
+            this.step = 'phone';
+            this.text = 'Enter your phone number';
+            this.phone = '';
+            this.password = '';
+            this.loginScreenChanges(true);
+            this.navCtrl.navigateForward(['experiences']);
+        })
+        .catch(err => {
+            console.log('loginUser > signInWithEmailAndPassword > err');
+            console.log('err',err);
                 this.alert.create({
                     header: 'Opps!',
                     message: 'please try again later!',
