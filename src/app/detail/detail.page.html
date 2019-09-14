@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{order?.tripName}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <!-- <a class="button" *ngif="tab === 'notes' && user.role === 'organizer'"
+        [routerLink]="'/experience/'+id+ '/guests'">
+        INVITE
+      </a> -->
+
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar slot="top">
+      <ion-tab-button tab="notes">
+        <ion-label>Trip Details</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="location">
+        <ion-label>Schedule</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+    <!-- <div class="fixed">
+      <div id="map" width="100%"></div>
+      <div class="button-bar">
+        <a class="button" ng-class="{'active': tab === 'notes'}" (click)="selectTab('notes')">Trip Details</a>
+        <a class="button" ng-class="{'active': tab === 'locations'}" (click)="selectTab('locations')">Schedule</a>
+      </div>
+    </div> -->
+
+    <ion-content class="schedule" cache-view="true" scroll="true" has-bouncing="true" overflow-scroll="true">
+
+      <div class="list" ng-show="tab === 'notes'">
+        <li class="item" (click)="null">
+          <div class="row">
+            <div class="col-10 col-center">
+              <div class="circle"></div>
+            </div>
+            <div class="col-90 location-time">
+              <h2><b>{{vehicle?.name}}</b></h2>
+              <h3>Rented for {{order?.duration}} hours</h3>
+            </div>
+          </div>
+        </li>
+        <li class="item" (click)="null">
+          <div class="row">
+            <div class="col-10 col-center">
+              <div class="circle"></div>
+            </div>
+            <div class="col-90 location-time">
+              <h2>{{order?.startTime | date: 'mediumDate'}}</h2>
+              <p>at {{order?.destinationAddress.formattedAddress}}</p>
+            </div>
+          </div>
+        </li>
+      </div>
+
+      <div class="list" ng-show="tab === 'locations'">
+        <a class="item" (click)="showOverview()">
+          <div class="row">
+            <div class="col-10 col-center">
+              <div class="circle"></div>
+            </div>
+            <div class="col-90 location-time">
+              <h2>Trip Overview</h2>
+              <p>View overview of trip</p>
+              <h3>{{trip?.locations.length}} locations - {{order?.duration}} hours</h3>
+            </div>
+          </div>
+        </a>
+        <a class="item" (click)="clickEvent(trip.locations.indexOf(l))"
+          ng-repeat="l in trip.locations | orderBy: 'pickupTime'">
+          <div class="row">
+            <div class="col-10 col-center">
+              <div class="circle"></div>
+            </div>
+            <div class="col-90 location-time">
+              <h2><b>{{l?.name}}</b></h2>
+              <p>{{l?.destinationAddress.formattedAddress}}</p>
+              <h3>{{l?.pickupTime | date: 'h:mm a'}}</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+    </ion-content>
+    <ion-tab-bar slot="bottom">
+
+      <ion-tab-button tab="map">
+        <ion-icon name="map"></ion-icon>
+        <ion-label>Trip info</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="guest">
+        <ion-icon name="contacts"></ion-icon>
+        <ion-label>Guest list</ion-label>
+        <!-- <ion-badge>6</ion-badge> -->
+      </ion-tab-button>
+
+      <ion-tab-button tab="media">
+        <ion-icon name="image"></ion-icon>
+        <ion-label>Media</ion-label>
+      </ion-tab-button>
+
+
+      <ion-tab-button tab="about">
+        <ion-icon name="card"></ion-icon>
+        <ion-label>Tickets</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+
+</ion-content>

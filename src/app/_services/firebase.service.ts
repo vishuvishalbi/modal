@@ -3,18 +3,18 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { isNull } from 'util';
-
+import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-
+  public orders = {};
   private snapshotChangesSubscription: any;
   private userNames: any = {};
   constructor(
     public afs: AngularFirestore,
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
+    public fbn: FirebaseAuthentication
   ) { }
 
   getUsers() {
@@ -37,17 +37,17 @@ export class FirebaseService {
   getUserByPhone(phone) {
     return new Promise<any>((resolve, reject) => {
       firebase.database().ref('users')
-      .orderByChild('phone')
-      .equalTo(phone)
-      .on('value', userSnapshot => {
-        let user = userSnapshot.val();
-        if(user) {
-          resolve(user);
-        } else {
-          reject('User not found');
-        }
-        console.log('user', user)
-      })
+        .orderByChild('phone')
+        .equalTo(phone)
+        .on('value', userSnapshot => {
+          let user = userSnapshot.val();
+          if (user) {
+            resolve(user);
+          } else {
+            reject('User not found');
+          }
+          console.log('user', user)
+        })
     })
   }
 
@@ -70,20 +70,20 @@ export class FirebaseService {
     return new Promise<any>((resolve, reject) => {
       firebase.database().ref(`orders/`).orderByChild('createdBy').equalTo(id).on('value', (resp) => {
         let result = this.snapshotToObject(resp);
-        let orders = []
         let t = { user: {}, key: '' };
 
         Object.keys(result).map((v) => {
           if (typeof result[v] != 'object') {
             return;
           }
+
           t = Object.assign({ user: {}, key: '' }, result[v]);
+          console.log('track', t)
           t.user = this.getUserName(result[v].createdBy);
           t.key = v;
-          orders.push(result[v]);
+          this.orders[t.key] = t;
         });
-        console.log({ orders })
-        resolve(orders);
+        resolve(this.orders);
       })
     })
   }
@@ -146,14 +146,22 @@ export class FirebaseService {
 
   async getCurrentUser() {
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().onAuthStateChanged(user => {
+      this.fbn.onAuthStateChanged().subscribe(user => {
         if (user) {
           console.log('user ', user);
           resolve(user);
           return;
         }
         reject('User not found!');
+      }, err => {
+        console.log('error', err);
+        reject('User not found!');
       })
     })
+  }
+
+  async getOrderById(id) {
+    console.log('getOrderbyId', id, this.orders)
+    return (this.orders[id]) ? this.orders[id] : {};
   }
 }

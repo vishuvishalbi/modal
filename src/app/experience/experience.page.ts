@@ -12,14 +12,19 @@ export class ExperiencePage implements OnInit {
   constructor(
     private firebase:FirebaseService
   ) { 
-    this.firebase.getUserOrders('Uxw36VrYEOPYBucX0JvJMAx7dih2')
-    .then(res => {
-      console.log({res})
-      this.orders = res;
-    })
+    
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    let user = await this.firebase.getCurrentUser()
+    console.log('ngOnInit', user)
+    // this.firebase.getUserOrders('Uxw36VrYEOPYBucX0JvJMAx7dih2')
+    this.firebase.getUserOrders(user.uid)
+      .then(res => {
+
+        console.log('getUserOrders ', { res })
+        this.orders = res;
+      })
   }
 
 }
