@@ -27,6 +27,7 @@ temp/
 platforms/
 platforms
 platforms/*
+platforms/
 resources/
 resources
 resources/*

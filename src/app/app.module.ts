@@ -19,6 +19,7 @@ import { Contacts } from '@ionic-native/contacts';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BasicAuthInterceptor, ErrorInterceptor } from './_helpers';
+import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { BasicAuthInterceptor, ErrorInterceptor } from './_helpers';
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     Contacts,
+    FirebaseAuthentication
     // HTTP
   ],
   bootstrap: [AppComponent]
