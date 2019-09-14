@@ -33,6 +33,24 @@ export class FirebaseService {
       });
     })
   }
+
+  getUserByPhone(phone) {
+    return new Promise<any>((resolve, reject) => {
+      firebase.database().ref('users')
+      .orderByChild('phone')
+      .equalTo(phone)
+      .on('value', userSnapshot => {
+        let user = userSnapshot.val();
+        if(user) {
+          resolve(user);
+        } else {
+          reject('User not found');
+        }
+        console.log('user', user)
+      })
+    })
+  }
+
   getOrders() {
     return new Promise<any>((resolve, reject) => {
       firebase.database().ref('orders').on('value', (resp) => {
@@ -127,9 +145,9 @@ export class FirebaseService {
   }
 
   async getCurrentUser() {
-    return new Promise <any>((resolve, reject) => {
-      firebase.auth().onAuthStateChanged( user => {
-        if(user) {
+    return new Promise<any>((resolve, reject) => {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
           console.log('user ', user);
           resolve(user);
           return;

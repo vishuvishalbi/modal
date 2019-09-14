@@ -28,29 +28,38 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    lookupUser(phone, appVerifier) {
+    lookupUser(phone) {
+        let prefix = "+91";
         return new Promise((resolve, reject) => {
+            this.firebaseService.getUserByPhone(phone)
+                .then(userObj => {
+                    let user = userObj[Object.keys(userObj)[0]];
+                    if (['organizer', 'admin'].includes(user.role)) {
+                        if (user.hasOwnProperty('tmpPass')) {
+                            this.sendOtp(prefix + phone).then(result2 => {
+                                return resolve(result2);
+                            });
+                        } else {
+                            return { step: 'login', text: 'Enter your password', status: true, message: 'success' }
+                        }
+                    } else {
+                        reject('User not found!');
+                    }
 
-            this.http.post<any>(`${environment.API_URL}/lookupUser`, { phone: phone }).subscribe(result1 => {
-                if (result1) {
-                    console.log('service lookupUser', result1);
-                    this.sendOtp(phone, appVerifier).then(result2 => {
-                        return resolve(result2);
-                    });
-                }
-                resolve({ step: 'login', text: 'Enter your password' })
-            }, err => {
-                console.error(err)
-                reject(err)
-                return { step: 'login', text: 'Enter your password' }
-            });
+                }).catch(err => {
+                    console.log('services error: ', err)
+                    reject(err);
+                })
         });
     }
 
-    sendOtp(phone, appVerifier) {
+    sendOtp(phone) {
         return new Promise((resolve, reject) => {
+            firebase.auth().settings.appVerificationDisabledForTesting = true;
+            let appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
 
-            firebase.auth().signInWithPhoneNumber(phone, appVerifier)
+            firebase.auth()
+                .signInWithPhoneNumber(phone, appVerifier)
                 .then(function (confirmationResult) {
                     // SMS sent. Prompt user to type the code from the message, then sign the
                     // user in with confirmationResult.confirm(code).
@@ -68,7 +77,7 @@ export class AuthenticationService {
     verifyOtp(otp) {
 
         this.confirmationResult.confirm(otp).then(result => {
-            console.log(result);
+            console.log('verification result', result);
         }).catch(err => {
             console.error(err)
         });
@@ -89,7 +98,6 @@ export class AuthenticationService {
                         .then(user => {
                             firebase.auth().signInWithEmailAndPassword(user.email, password)
                                 .then(function (userObj: any) {
-
                                     // Get current user profile
                                     this.firebaseService.getCurrentUser(userObj.uid).then(function (profile) {
                                         return { step: 'phone', text: 'Enter your phone number', status: true }
