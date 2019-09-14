@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../_services/firebase.service';
 import { GoogleMaps, GoogleMap, Environment } from "@ionic-native/google-maps/ngx";
 import { Platform } from '@ionic/angular';
+import { GoogleMapOptions } from '@ionic-native/google-maps';
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.page.html',
@@ -44,10 +45,20 @@ export class DetailPage implements OnInit {
       'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyDrhd4sM4iF6yfi02iwVngE6mZLRHbsG8o'
     });
 
-    this.map = GoogleMaps.create('map_canvas');
     console.log('loadMap', this.order)
     let locationList = this.order.locations
     let firstLocation = locationList[Object.keys(locationList)[0]];
+    let mapOptions: GoogleMapOptions = {
+      camera: {
+        target: {
+          lat: 43.0741904,
+          lng: -89.3809802
+        },
+        zoom: 18,
+        tilt: 30
+      }
+    };
+    this.map = GoogleMaps.create('map_canvas', mapOptions);
     this.map.addMarker({
       title: firstLocation.name,
       icon: 'blue',
