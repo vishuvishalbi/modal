@@ -23,7 +23,7 @@ import { FilestackModule } from '@filestack/angular';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BasicAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
-
+import { GoogleMaps } from "@ionic-native/google-maps";
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,6 +49,7 @@ import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ng
     Contacts,
     FirebaseAuthentication,
     Camera,
+    GoogleMaps
     // HTTP
   ],
   bootstrap: [AppComponent]

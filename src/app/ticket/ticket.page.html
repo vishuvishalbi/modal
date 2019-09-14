@@ -1,9 +1,40 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>ticket</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+<ion-tabs>
+
+
+ <ion-tab-bar slot="bottom">
+
+   <ion-tab-button tab="">
+     <ion-icon name="map"></ion-icon>
+     <ion-label>Trip info</ion-label>
+   </ion-tab-button>
+
+   <ion-tab-button tab="" [routerLink]="'/list'">
+     <ion-icon name="contacts"></ion-icon>
+     <ion-label>Guest list</ion-label>
+     <!-- <ion-badge>6</ion-badge> -->
+   </ion-tab-button>
+
+   <ion-tab-button tab="media">
+     <ion-icon name="image"></ion-icon>
+     <ion-label>Media</ion-label>
+   </ion-tab-button>
+
+
+   <ion-tab-button tab="" [routerLink]="'/ticket'">
+     <ion-icon name="card"></ion-icon>
+     <ion-label>Tickets</ion-label>
+   </ion-tab-button>
+ </ion-tab-bar>
+</ion-tabs>
 
 </ion-content>
