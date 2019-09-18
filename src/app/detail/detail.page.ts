@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../_services/firebase.service';
 import { GoogleMaps, GoogleMap, Environment } from "@ionic-native/google-maps/ngx";
@@ -10,39 +10,39 @@ import { GoogleMapOptions } from '@ionic-native/google-maps';
   styleUrls: ['./detail.page.scss'],
 })
 export class DetailPage implements OnInit {
+  public orderId;
 
   map: GoogleMap;
   private id: string;
   private order: any;
+  public currentTab = 1;
   constructor(
     private route: ActivatedRoute,
     private firebaseService: FirebaseService,
-    private platform: Platform
+    private platform: Platform,
   ) {
-
+    console.log('details pages');
   }
 
   async ngOnInit() {
     console.log('ngOnInit')
+    this.id = location.pathname.split('/')[2];
     await this.platform.ready();
-    this.route.paramMap.subscribe(param => {
-      console.log('ngOnInit > activated route')
-      this.id = param.get('id');
-      this.firebaseService.getOrderById(this.id).then(async result => {
+    this.firebaseService.getOrderById(this.id)
+      .then(async result => {
         console.log('ngOnInit > activated route > order')
         console.log('order', result)
         this.order = result;
         await this.loadMap();
-      })
 
-    })
+      })
   }
 
 
   async loadMap() {
     Environment.setEnv({
-      'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyDrhd4sM4iF6yfi02iwVngE6mZLRHbsG8o',
-      'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyDrhd4sM4iF6yfi02iwVngE6mZLRHbsG8o'
+      'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyAA9GARfSEE_j1jHv28JNoaMAEkvN5-3yY',
+      'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyAA9GARfSEE_j1jHv28JNoaMAEkvN5-3yY'
     });
 
     console.log('loadMap', this.order)

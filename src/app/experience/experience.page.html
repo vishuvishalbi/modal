@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-card *ngFor="let item of orders | keyvalue" [routerLink]="'/detail/' + item.value?.key">
+  <ion-card *ngFor="let item of orders | keyvalue" [routerLink]="'/tabs/' + item.value?.key + '/detail'">
     <ion-card-header >
       <ion-card-subtitle>{{item.value?.startTime | date:'mediumDate' }}</ion-card-subtitle>
       <ion-card-title>{{item.value?.tripName}}</ion-card-title>

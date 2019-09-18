@@ -11,6 +11,7 @@ export class FirebaseService {
   public orders = {};
   private snapshotChangesSubscription: any;
   private userNames: any = {};
+  private currentOrder:any;
   constructor(
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
@@ -66,7 +67,7 @@ export class FirebaseService {
     })
   }
 
-  getUserOrders(id) {
+  getUserOrdersByUserId(id) {
     return new Promise<any>((resolve, reject) => {
       firebase.database().ref(`orders/`).orderByChild('createdBy').equalTo(id).on('value', (resp) => {
         let result = this.snapshotToObject(resp);
@@ -162,6 +163,20 @@ export class FirebaseService {
 
   async getOrderById(id) {
     console.log('getOrderbyId', id, this.orders)
-    return (this.orders[id]) ? this.orders[id] : {};
+    if( this.orders.hasOwnProperty(id)){
+      this.currentOrder = this.orders[id];
+    }
+
+    let order = await this.getOrderDetails(id);
+    console.log('found order', order);
+    return order;
+  }
+
+  async getCurrentOrder() {
+    return this.currentOrder;
+  }
+
+  async getCurrentOrders() {
+    return this.orders;
   }
 }

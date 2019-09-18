@@ -113,8 +113,9 @@ export class LoginPage {
                     x.dismiss();
                     console.log(this.newUser, 'result', result.val())
                     if (['organizer', 'admin'].includes(this.newUser.role)) {
-                        if (this.newUser.hasOwnProperty('tmpPass')) {
+                        if (this.newUser.tmpPass) {
                             await this.sendOtp()
+                            this.text = 'Enter your verification code';
                         }
                     } else {
                         this.step = "login";
@@ -145,12 +146,14 @@ export class LoginPage {
         this.fbn.verifyPhoneNumber("+1" + this.phone, 30000).then(id => {
             console.log('sendOtp > verifyPhoneNumber > then')
             this.id = id;
+            this.text = 'Enter your verification code';
             console.log('verification id',id)
             this.step = "code";
-            this.text = 'Enter your verification code';
             x.dismiss();
         }).catch(async err => {
             console.log('sendOtp > verifyPhoneNumber > catch')
+            this.step = 'phone';
+            this.text = 'Enter your phone numbber';
             x.dismiss();
             this.alert.create({
                 header: 'Opps',
@@ -175,6 +178,8 @@ export class LoginPage {
             console.log('verify > signInWithVerificationId > catch');
             console.log('error', err);
             x.dismiss();
+            this.step = 'phone';
+            this.text = 'Enter your phone number';
             this.alert.create({
                 header: 'Verification code is incorrect',
                 message: 'please try again!',
@@ -194,18 +199,7 @@ export class LoginPage {
             console.log('changesPassword > validate')
             let key = Object.keys(this.userObj)[0];
 
-            firebase.database().ref('user/' + key).update({ tmpPass: null })
-                .then(result => {
-                    this.password = this.pin;
-                    console.log('changesPassword > updatePassword > firebase > success');
-                    this.loginUser();
-                }).catch(err => {
-                    console.log('changesPassword > updatePassword > firebase > err', err);
-                })
-
-            // this.userServices.updatePassword({ uid: key, password: this.pin }).subscribe(result => {
-            //     console.log('changesPassword > updatePassword > subscribe')
-            //     firebase.database().ref('user/' + key).update({ tmpPass: null })
+            // firebase.database().ref('user/' + key).update({ tmpPass: null })
             //     .then(result => {
             //         this.password = this.pin;
             //         console.log('changesPassword > updatePassword > firebase > success');
@@ -213,15 +207,28 @@ export class LoginPage {
             //     }).catch(err => {
             //         console.log('changesPassword > updatePassword > firebase > err', err);
             //     })
-            // }, err => {
-            //     console.log('changesPassword > updatePassword > error')
-            //     this.alert.create({
-            //         header: 'Opps!',
-            //         message: 'please try again!',
-            //         buttons: ['OK']
-            //     }).then(x => x.present());
-            // })
+
+            this.userServices.updatePassword({ uid: key, password: this.pin }).subscribe(result => {
+                console.log('changesPassword > updatePassword > subscribe')
+                firebase.database().ref('user/' + key).update({ tmpPass: null })
+                .then(result => {
+                    this.password = this.pin;
+                    console.log('changesPassword > updatePassword > firebase > success');
+                    this.loginUser();
+                }).catch(err => {
+                    console.log('changesPassword > updatePassword > firebase > err', err);
+                })
+            }, err => {
+                console.log('changesPassword > updatePassword > error')
+                this.alert.create({
+                    header: 'Opps!',
+                    message: 'please try again!',
+                    buttons: ['OK']
+                }).then(x => x.present());
+            })
         } else {
+            this.step = "pin";
+            this.text = "Excellent! Now, Create your PIN"
             this.alert.create({
                 header: 'PINs do not match',
                 message: 'please try again!',

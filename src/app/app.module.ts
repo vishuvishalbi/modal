@@ -16,7 +16,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { Contacts } from '@ionic-native/contacts';
 import { Camera } from '@ionic-native/camera/ngx';
-import { FilestackModule } from '@filestack/angular';
+// import { FilestackModule } from '@filestack/angular';
 
 // import { HTTP } from '@ionic-native/http/ngx';
 
@@ -38,7 +38,7 @@ import { GoogleMaps } from "@ionic-native/google-maps";
     AngularFireAuthModule, // imports firebase/auth
     AngularFireStorageModule, // imports firebase/storage
     AngularFireDatabaseModule,
-    FilestackModule, //Filestack
+    // FilestackModule, //Filestack
   ],
   providers: [
     StatusBar,

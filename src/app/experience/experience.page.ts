@@ -19,7 +19,7 @@ export class ExperiencePage implements OnInit {
     let user = await this.firebase.getCurrentUser()
     console.log('ngOnInit', user)
     // this.firebase.getUserOrders('Uxw36VrYEOPYBucX0JvJMAx7dih2')
-    this.firebase.getUserOrders(user.uid)
+    this.firebase.getUserOrdersByUserId(user.uid)
       .then(res => {
 
         console.log('getUserOrders ', { res })

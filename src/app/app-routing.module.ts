@@ -22,10 +22,11 @@ const routes: Routes = [
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   },
   { path: 'experiences', loadChildren: './experience/experience.module#ExperiencePageModule' },
-  { path: 'contacts', loadChildren: './contact/contact.module#ContactPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
-  { path: 'ticket', loadChildren: './ticket/ticket.module#TicketPageModule' },
-  { path: 'detail/:id', loadChildren: './detail/detail.module#DetailPageModule' },
+  { path: 'tabs/:id', loadChildren: './tabs/tabs.module#TabsPageModule' },  { path: 'map', loadChildren: './map/map.module#MapPageModule' },
+
+
+
 
   // { path: 'ticket', loadChildren: './experience/ticket/ticket.module#TicketPageModule' },
   // { path: 'detail', loadChildren: './experience/detail/detail.module#DetailPageModule' }
