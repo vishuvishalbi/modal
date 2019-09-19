@@ -1,3 +1,6 @@
 #map_canvas {
-    height:50%
+    display: block;
+    margin: 0 auto; // Make the photo center align
+    width: auto; // Adjust the width according to height
+    height: 50vh; // Height = 50% of screen
 }

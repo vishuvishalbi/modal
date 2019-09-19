@@ -3,7 +3,7 @@ import * as firebase from "firebase/app";
 import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx'
 import { NavController, AlertController } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { FilestackService } from "@filestack/angular";
+// import { FilestackService } from "@filestack/angular";
 
 @Component({
     selector: 'app-profile',
@@ -29,7 +29,7 @@ export class ProfilePage  {
         private navigate: NavController,
         private alert: AlertController,
         private camera: Camera,
-        private filestackService: FilestackService
+        // private filestackService: FilestackService
     ) {
         // this.filestackService.init('AsY2bRazJS3SAeMrDOclaz')
         this.fbn.onAuthStateChanged()

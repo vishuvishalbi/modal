@@ -1,0 +1,24 @@
+#qrcode {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+}
+
+.logo {
+    width: 15vh;
+}
+ion-tab {
+    --background: linear-gradient(to right, #008fcd 0%, #247dab 100%);
+}
+ion-row {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+ion-img {
+    width: 10vh;
+    display: block;
+    margin: 0 auto;
+}

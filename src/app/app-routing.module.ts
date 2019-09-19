@@ -23,7 +23,8 @@ const routes: Routes = [
   },
   { path: 'experiences', loadChildren: './experience/experience.module#ExperiencePageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
-  { path: 'tabs/:id', loadChildren: './tabs/tabs.module#TabsPageModule' },  { path: 'map', loadChildren: './map/map.module#MapPageModule' },
+  { path: 'tabs/:id', loadChildren: './tabs/tabs.module#TabsPageModule' },
+  // { path: 'map', loadChildren: './map/map.module#MapPageModule' },
 
 
 

@@ -108,6 +108,7 @@ export class LoginPage {
             .equalTo(this.phone)
             .on('value', async (result: any) => {
                 this.userObj = result.val();
+                console.log('this.userObj', this.userObj)
                 if (this.userObj) {
                     this.newUser = this.userObj[Object.keys(this.userObj)[0]];
                     x.dismiss();
@@ -208,9 +209,9 @@ export class LoginPage {
             //         console.log('changesPassword > updatePassword > firebase > err', err);
             //     })
 
-            this.userServices.updatePassword({ uid: key, password: this.pin }).subscribe(result => {
+            this.userServices.updatePassword({ uid: key, updates: {password: this.pin} }).subscribe(result => {
                 console.log('changesPassword > updatePassword > subscribe')
-                firebase.database().ref('user/' + key).update({ tmpPass: null })
+                firebase.database().ref('users/' + key).update({ tmpPass: null })
                 .then(result => {
                     this.password = this.pin;
                     console.log('changesPassword > updatePassword > firebase > success');

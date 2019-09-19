@@ -11,7 +11,7 @@ export class FirebaseService {
   public orders = {};
   private snapshotChangesSubscription: any;
   private userNames: any = {};
-  private currentOrder:any;
+  private currentOrder: any;
   constructor(
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
@@ -59,6 +59,7 @@ export class FirebaseService {
       });
     })
   }
+
   getOrderDetails(id) {
     return new Promise<any>((resolve, reject) => {
       firebase.database().ref(`orders/${id}`).on('value', (resp) => {
@@ -163,8 +164,9 @@ export class FirebaseService {
 
   async getOrderById(id) {
     console.log('getOrderbyId', id, this.orders)
-    if( this.orders.hasOwnProperty(id)){
+    if (this.orders.hasOwnProperty(id)) {
       this.currentOrder = this.orders[id];
+      return this.currentOrder;
     }
 
     let order = await this.getOrderDetails(id);
@@ -178,5 +180,21 @@ export class FirebaseService {
 
   async getCurrentOrders() {
     return this.orders;
+  }
+
+  async getVehicleById(id) {
+    return new Promise<any>((resolve, reject) => {
+      firebase.database().ref(`vehicles/${id}`).on('value', (resp) => {
+        resolve(this.snapshotToObject(resp));
+      });
+    })
+  }
+
+  async getPassengers(id) {
+    return new Promise<any>((resolve, reject) => {
+      firebase.database().ref(`passengers/`).orderByChild('orderId').equalTo(id).on('value', (resp) => {
+        resolve(this.snapshotToObject(resp));
+      });
+    })
   }
 }
