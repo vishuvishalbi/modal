@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { TabsPage } from './tabs.page';
-import { DetailPage } from '../detail/detail.page';
+import { ContactsPageModule } from '../contacts/contacts.module';
 
 const routes: Routes = [
   {
@@ -18,8 +18,8 @@ const routes: Routes = [
         loadChildren: '../detail/detail.module#DetailPageModule'
       },
       {
-        path: 'contacts',
-        loadChildren: '../contact/contact.module#ContactPageModule'
+        path: 'guests',
+        loadChildren: '../guests/guests.module#GuestsPageModule'
       },
       {
         path: 'ticket',
@@ -39,13 +39,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    ContactsPageModule,
+    RouterModule.forChild(routes),
   ],
   declarations: [TabsPage],
-  // exports : [
-  //   TabsPage,
-  //   DetailPage,
-
-  // ]
 })
 export class TabsPageModule { }

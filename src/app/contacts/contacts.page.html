@@ -1,0 +1,44 @@
+<ion-content>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Contacts</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list *ngIf="!close">
+    <ion-item>
+      <ion-label position="floating">Search</ion-label>
+      <ion-input [(ngModel)]="search" type="text" (keyup)="updateContact()"></ion-input>
+    </ion-item>
+    <ion-item *ngFor="let i of users">
+      <ion-list>
+        <ion-item *ngFor="let number of i.phoneNumbers">
+          <ion-icon name="contact" slot="start"></ion-icon>
+          <ion-label>
+            <h2>
+              {{i?.displayName}}
+            </h2>
+            <h3>{{number.value}}</h3>
+          </ion-label>
+          <ion-checkbox (click)="selecteUser(number.value, i)" slot="end"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="close">
+    <ion-item>
+      <ion-label>Selected Contacts</ion-label>
+    </ion-item>
+    <ion-item *ngFor="let i of selectedContacts| keyvalue">
+      <ion-icon name="contact" slot="start"></ion-icon>
+      <ion-label>
+        <h2>{{i.value?.displayName}}</h2>
+        <h3>{{i.key}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+<ion-button (click)="dismissNow()" slot="bottom">
+  {{(close) ? 'Send Invite': 'Okay'}}
+</ion-button>

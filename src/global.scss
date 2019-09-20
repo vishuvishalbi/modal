@@ -26,7 +26,10 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 .plt-android ion-title h1 {
-    margin-left: 4em;
+    display: flex;
+    flex: 2;
+    justify-content: center;
+    margin-left: -48px;
 }
 
 ion-toolbar {

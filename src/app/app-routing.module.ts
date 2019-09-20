@@ -24,6 +24,8 @@ const routes: Routes = [
   { path: 'experiences', loadChildren: './experience/experience.module#ExperiencePageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'tabs/:id', loadChildren: './tabs/tabs.module#TabsPageModule' },
+  // { path: 'guests', loadChildren: './guests/guests.module#GuestsPageModule' },
+
   // { path: 'map', loadChildren: './map/map.module#MapPageModule' },
 
 
