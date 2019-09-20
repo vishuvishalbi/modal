@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Contacts } from '@ionic-native/contacts';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 
 @Component({
     selector: 'app-contacts',
@@ -12,9 +12,11 @@ export class ContactsPage implements OnInit {
     public search: any;
     public close = false;
     public selectedContacts: any = {};
+    private l: any;
     constructor(
         private contacts: Contacts,
         private modalCtrl: ModalController,
+        private loadingController: LoadingController,
     ) { }
 
     ngOnInit() {
@@ -27,11 +29,13 @@ export class ContactsPage implements OnInit {
             hasPhoneNumber: true,
         }
         this.users = await this.contacts.find(["*"], options);
-        console.log('users', this.users)
+        //console.log('users', this.users)
     }
 
     async ionViewDidEnter() {
-        this.updateContact()
+        this.showloader();
+        await this.updateContact()
+        this.hideLoader();
     }
 
     selecteUser(phone, details) {
@@ -56,5 +60,22 @@ export class ContactsPage implements OnInit {
         this.modalCtrl.dismiss({
             selectedContacts: this.selectedContacts
         });
+    }
+
+    hideLoader() {
+        try {
+            this.l.disimiss();
+        } catch (error) {
+        }
+    }
+    async showloader() {
+        this.l = await this.loadingController.create({
+            //spinner: null,
+            duration: 3500,
+            message: 'Please wait...',
+            translucent: true,
+            cssClass: 'custom-class custom-loading'
+        });
+        return await this.l.present();
     }
 }

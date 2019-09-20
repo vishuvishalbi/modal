@@ -1,4 +1,7 @@
 export const environment = {
+  API_URL: 'http://alpha.modal.me',
+  START_VERIFY: '/authy/startVerify',
+  START_ACTIVATE: '/startActivate',
   production: true,
   firebase: {
     apiKey: "AIzaSyBah75AjrcGvkGIPZKHTjoo9jY1Zu8gDuc",

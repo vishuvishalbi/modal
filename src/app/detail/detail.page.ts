@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../_services/firebase.service';
 // import { GoogleMaps, GoogleMap, Environment } from "@ionic-native/google-maps/ngx";
-import { Platform } from '@ionic/angular';
+import { Platform, LoadingController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 declare var google: any;
 
@@ -23,40 +23,32 @@ export class DetailPage implements OnInit {
     public markers = [];
     public trip: any = { locations: [] };
     public bounds = new google.maps.LatLngBounds();
-    public vehicle:any;
+    public vehicle: any;
+    private l: any;
     constructor(
         private route: ActivatedRoute,
         private firebaseService: FirebaseService,
         private platform: Platform,
+        private loadingController: LoadingController,
     ) {
-        console.log('details pages');
+        //console.log('details pages');
     }
 
     async ngOnInit() {
-        console.log('ngOnInit')
-        this.id = location.pathname.split('/')[2];
-        await this.platform.ready();
-        this.firebaseService.getOrderById(this.id)
-            .then(async result => {
-                console.log('ngOnInit > activated route > order')
-                console.log('order', result)
-                this.order = result;
-                if (result.assignedVehicle) {
-                    this.firebaseService.getVehicleById(result.assignedVehicle)
-                    .then(vehicles => {
-                        this.vehicle = vehicles;
-                    })
-                    .catch(err => {
-                        console.log('getVehicleById > catch')
-                        console.log(err)
-                    })
-                }
+        try {
+            this.showloader();
+            // //console.log('ngOnInit')
+            this.id = location.pathname.split('/')[2];
+            await this.platform.ready();
+            this.order = await this.firebaseService.getOrderById(this.id)
+            if (this.order.assignedVehicle) {
+                this.vehicle = await this.firebaseService.getVehicleById(this.order.assignedVehicle);
                 await this.loadMap();
-
-            })
-    }
-    ionViewDidEnter() {
-
+            }
+            this.hideLoader();
+        } catch (error) {
+            console.log('ngOninit > Error', error)
+        }
     }
 
     showOverview() {
@@ -88,7 +80,7 @@ export class DetailPage implements OnInit {
     async loadMap() {
 
 
-        console.log('loadMap', this.order)
+        //console.log('loadMap', this.order)
         let locationList = this.order.locations
         let locationCoords = [];
 
@@ -145,5 +137,22 @@ export class DetailPage implements OnInit {
             google.maps.event.trigger(this.map, 'resize');
         });
 
+    }
+
+    hideLoader() {
+        try {
+            this.l.disimiss();
+        } catch (error) {
+        }
+    }
+    async showloader() {
+        this.l = await this.loadingController.create({
+            //spinner: null,
+            duration: 3500,
+            message: 'Please wait...',
+            translucent: true,
+            cssClass: 'custom-class custom-loading'
+        });
+        return await this.l.present();
     }
 }

@@ -26,11 +26,11 @@ export class AppComponent {
     //   icon: 'list',
     //   url: '/login',
     // },
-    {
-      title: 'Settings',
-      icon: 'settings',
-      url: '/profile',
-    },
+    // {
+    //   title: 'Settings',
+    //   icon: 'settings',
+    //   url: '/profile',
+    // },
     // {
     //   title: 'Experiences',
     //   icon: 'list',
@@ -70,12 +70,12 @@ export class AppComponent {
     //   title: 'profile',
     //   icon: 'list',
     //   url: '/profile',
-    // },
-    {
-      title: 'contacts',
-      icon: 'contacts',
-      url: '/contacts',
-    }
+    // // },
+    // {
+    //   title: 'contacts',
+    //   icon: 'contacts',
+    //   url: '/contacts',
+    // }
   ];
 
   constructor(

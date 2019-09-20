@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Contacts } from '@ionic-native/contacts';
-import { Platform, ModalController, ToastController } from '@ionic/angular';
+import { Platform, ModalController, ToastController, LoadingController } from '@ionic/angular';
 import { FirebaseService } from '../_services/firebase.service';
 import { ContactsPage } from '../contacts/contacts.page';
 import { ThrowStmt } from '@angular/compiler';
@@ -23,12 +23,15 @@ export class GuestsPage {
     public user: any;
     public selectedUsers: any;
     public selectedContacts: any = {};
+    private l: any;
+
     constructor(
         private platform: Platform,
         public contacts: Contacts,
         public firebaseService: FirebaseService,
         private modalController: ModalController,
         private toastController: ToastController,
+        private loadingController: LoadingController,
     ) {
         this.id = location.pathname.split('/')[2];
         this.init();
@@ -43,7 +46,7 @@ export class GuestsPage {
         });
         await modal.present();
         let { data } = await modal.onDidDismiss();
-        console.log('data disimiss', data)
+        //console.log('data disimiss', data)
 
         if (Object.keys(data).length && data.hasOwnProperty('selectedContacts') && Object.keys(data.selectedContacts).length) {
             this.selectedContacts = data.selectedContacts;
@@ -53,29 +56,32 @@ export class GuestsPage {
 
     async init() {
         try {
-            console.log('init')
+            await this.showloader();
+            //console.log('init')
             this.count = 0;
             this.order = await this.firebaseService.getOrderById(this.id);
-            console.log('init > getOrderById > then', this.order);
+            //console.log('init > getOrderById > then', this.order);
             this.organizer = await this.firebaseService.getUserDetails(this.order.createdBy);
             let passengers = await this.firebaseService.getPassengers(this.id);
             this.user = await this.firebaseService.getCurrentUser();
-            console.log('init > getPassengers > then', passengers, this.user)
+            //console.log('init > getPassengers > then', passengers, this.user)
             for (let i in passengers) {
                 if (passengers[i].hasPaid) {
                     this.count++;
                 }
             }
             this.guests = passengers;
+            this.invited = [];
             for (const i in passengers) {
                 const guest = passengers[i];
                 if (guest.hasOwnProperty('invitedBy') && guest.invitedBy == this.organizer.uid) {
                     this.invited.push(guest);
                 }
             }
+            this.hideLoader();
 
         } catch (error) {
-            console.log('init error', error)
+            //console.log('init error', error)
         }
     }
 
@@ -86,7 +92,7 @@ export class GuestsPage {
 
     async sendInvites() {
         try {
-
+            await this.showloader();
             for (var i in this.selectedContacts) {
 
                 let passengerData = {
@@ -105,9 +111,11 @@ export class GuestsPage {
                     await this.firebaseService.setPassengers(passengerData)
                     this.toast('Contacts are invited!');
                     this.init();
+                    this.hideLoader();
                 }
             };
         } catch (error) {
+            this.hideLoader();
             this.toast('Something went wrong!')
             console.error(error)
         }
@@ -119,5 +127,21 @@ export class GuestsPage {
             duration: 2000
         });
         toast.present();
+    }
+    hideLoader() {
+        try {
+            this.l.disimiss();
+        } catch (error) {
+        }
+    }
+    async showloader() {
+        this.l = await this.loadingController.create({
+            //spinner: null,
+            duration: 3500,
+            message: 'Please wait...',
+            translucent: true,
+            cssClass: 'custom-class custom-loading'
+        });
+        return await this.l.present();
     }
 }
