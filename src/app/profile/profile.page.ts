@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as firebase from "firebase/app";
 import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx'
 import { NavController, AlertController } from '@ionic/angular';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { FilestackService } from "@filestack/angular";
 
 @Component({
@@ -28,7 +28,7 @@ export class ProfilePage  {
         private fbn: FirebaseAuthentication,
         private navigate: NavController,
         private alert: AlertController,
-        private camera: Camera,
+        // private camera: Camera,
         // private filestackService: FilestackService
     ) {
         // this.filestackService.init('AsY2bRazJS3SAeMrDOclaz')
@@ -126,40 +126,40 @@ export class ProfilePage  {
     }
 
     addPhotos() {
-        let options: CameraOptions = {
-            quality: 85,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            sourceType: this.camera.PictureSourceType.CAMERA,
-            allowEdit: true,
-            encodingType: this.camera.EncodingType.JPEG,
-            targetWidth: 100,
-            targetHeight: 100,
-            saveToPhotoAlbum: false,
-            correctOrientation: true
-        };
-        let uuid = this.guid();
-        this.camera.getPicture(options).then((imageData) => {
-            let filestackOptions = {
-                imageQuality: 85,
-                mimetype: 'image/*',
-                filename: uuid + '.jpg',
-                base64decode: true
-            }
-            // this.filestackService.upload(imageData).subscribe((fileData:any) => {
-            //     console.log('Image uploaded', fileData);
-            //     var newMediaKey = firebase.database().ref().child('media').push().key;
-            //     var updates = {};
-            //     updates['media/profiles/' + this.user.uid + '/' + newMediaKey + '/url/'] = fileData.url;
-            //     updates['users/' + this.user.id + '/profileImgUrl'] = fileData.url;
-            //     firebase.database().ref().update(updates).then(function (x) {
-            //         console.log('Image uploaded successfully');
-            //         this.user.profileImgUrl = fileData.url;
-            //     });
-            // }
-            // );
-        }, function (err) {
-            // error
-        });
+        // let options: CameraOptions = {
+        //     quality: 85,
+        //     destinationType: this.camera.DestinationType.DATA_URL,
+        //     sourceType: this.camera.PictureSourceType.CAMERA,
+        //     allowEdit: true,
+        //     encodingType: this.camera.EncodingType.JPEG,
+        //     targetWidth: 100,
+        //     targetHeight: 100,
+        //     saveToPhotoAlbum: false,
+        //     correctOrientation: true
+        // };
+        // let uuid = this.guid();
+        // this.camera.getPicture(options).then((imageData) => {
+        //     let filestackOptions = {
+        //         imageQuality: 85,
+        //         mimetype: 'image/*',
+        //         filename: uuid + '.jpg',
+        //         base64decode: true
+        //     }
+        //     // this.filestackService.upload(imageData).subscribe((fileData:any) => {
+        //     //     console.log('Image uploaded', fileData);
+        //     //     var newMediaKey = firebase.database().ref().child('media').push().key;
+        //     //     var updates = {};
+        //     //     updates['media/profiles/' + this.user.uid + '/' + newMediaKey + '/url/'] = fileData.url;
+        //     //     updates['users/' + this.user.id + '/profileImgUrl'] = fileData.url;
+        //     //     firebase.database().ref().update(updates).then(function (x) {
+        //     //         console.log('Image uploaded successfully');
+        //     //         this.user.profileImgUrl = fileData.url;
+        //     //     });
+        //     // }
+        //     // );
+        // }, function (err) {
+        //     // error
+        // });
     }
 
     updateName(name) {
@@ -172,59 +172,59 @@ export class ProfilePage  {
     }
 
     addPhotosFromLibrary() {
-        var options = {
-            quality: 50,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-            allowEdit: true,
-            encodingType: this.camera.EncodingType.JPEG,
-            // popoverOptions: ,
-            saveToPhotoAlbum: false,
-            correctOrientation: true
-        };
+        // var options = {
+        //     quality: 50,
+        //     destinationType: this.camera.DestinationType.DATA_URL,
+        //     sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        //     allowEdit: true,
+        //     encodingType: this.camera.EncodingType.JPEG,
+        //     // popoverOptions: ,
+        //     saveToPhotoAlbum: false,
+        //     correctOrientation: true
+        // };
 
-        this.camera.getPicture(options).then(function (imageData) {
+        // this.camera.getPicture(options).then(function (imageData) {
 
-            var uuid = this.guid();
-            // this.filestackService.upload(
-            //     imageData, {
-            //     imageQuality: 85,
-            //     mimetype: 'image/*',
-            //     filename: uuid + '.jpg',
-            //     base64decode: true
-            // },
-            //     function (new_blob) {
-            //         console.log('Image uploaded', new_blob);
-            //         var newMediaKey = firebase.database().ref().child('media').push().key;
+        //     var uuid = this.guid();
+        //     // this.filestackService.upload(
+        //     //     imageData, {
+        //     //     imageQuality: 85,
+        //     //     mimetype: 'image/*',
+        //     //     filename: uuid + '.jpg',
+        //     //     base64decode: true
+        //     // },
+        //     //     function (new_blob) {
+        //     //         console.log('Image uploaded', new_blob);
+        //     //         var newMediaKey = firebase.database().ref().child('media').push().key;
 
-            //         var updates = {};
-            //         updates['media/profiles/' + this.user.uid + '/' + newMediaKey + '/url/'] = new_blob.url;
-            //         updates['users/' + this.user.id + '/profileImgUrl'] = new_blob.url;
-            //         firebase.database().ref().update(updates).then(function (x) {
-            //             console.log('Image uploaded successfully');
-            //             this.user.profileImgUrl = new_blob.url;
+        //     //         var updates = {};
+        //     //         updates['media/profiles/' + this.user.uid + '/' + newMediaKey + '/url/'] = new_blob.url;
+        //     //         updates['users/' + this.user.id + '/profileImgUrl'] = new_blob.url;
+        //     //         firebase.database().ref().update(updates).then(function (x) {
+        //     //             console.log('Image uploaded successfully');
+        //     //             this.user.profileImgUrl = new_blob.url;
 
-            //             var passengersRef = firebase.database().ref('passengers');
-            //             var passengersQuery = passengersRef.orderByChild('phone').equalTo(this.user.phone)
-            //             // var passengersArray = $firebaseArray(passengersQuery);
+        //     //             var passengersRef = firebase.database().ref('passengers');
+        //     //             var passengersQuery = passengersRef.orderByChild('phone').equalTo(this.user.phone)
+        //     //             // var passengersArray = $firebaseArray(passengersQuery);
 
-            //             // passengersArray.$loaded().then(function () {
-            //             //     setTimeout(function () {
-            //             //         passengersArray.forEach(function (i, e) {
-            //             //             var passengerUpdates = {};
-            //             //             passengerUpdates['/passengers/' + i.$id + '/profileImgUrl'] = new_blob.url;
-            //             //             firebase.database().ref().update(passengerUpdates).then(function (x) {
-            //             //                 console.log('Updated profile photo');
-            //             //             });
-            //             //         });
-            //             //     });
-            //             // });
-            //         });
-            //     }
-            // );
-        }, function (err) {
-            // error
-        });
+        //     //             // passengersArray.$loaded().then(function () {
+        //     //             //     setTimeout(function () {
+        //     //             //         passengersArray.forEach(function (i, e) {
+        //     //             //             var passengerUpdates = {};
+        //     //             //             passengerUpdates['/passengers/' + i.$id + '/profileImgUrl'] = new_blob.url;
+        //     //             //             firebase.database().ref().update(passengerUpdates).then(function (x) {
+        //     //             //                 console.log('Updated profile photo');
+        //     //             //             });
+        //     //             //         });
+        //     //             //     });
+        //     //             // });
+        //     //         });
+        //     //     }
+        //     // );
+        // }, function (err) {
+        //     // error
+        // });
     }
 
 

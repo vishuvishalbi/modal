@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -24,7 +24,7 @@ const routes: Routes = [
   ],
   declarations: [ProfilePage],
   providers:[
-    Camera,
+    // Camera,
   ]
 })
 export class ProfilePageModule {}

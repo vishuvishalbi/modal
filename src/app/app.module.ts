@@ -15,7 +15,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { Contacts } from '@ionic-native/contacts';
-import { Camera } from '@ionic-native/camera/ngx';
+// import { Camera } from '@ionic-native/camera/ngx';
 // import { FilestackModule } from '@filestack/angular';
 
 import { HTTP } from '@ionic-native/http/ngx';
@@ -48,7 +48,7 @@ import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ng
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     Contacts,
     FirebaseAuthentication,
-    Camera,
+    // Camera,
     HTTP
   ],
   bootstrap: [AppComponent]

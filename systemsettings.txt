@@ -1,6 +1,7 @@
 echo 'export PATH=/Users/vishu/.npm-global/bin/' >> ~/.bash_profile
 
-echo 'export ANDROID_HOME=/Users/$USER/Library/Android/sdk' >> ~/.bash_profile
+echo 'export ANDROID_HOME=/home/vishy/Android/' >> ~/.bash_profile
+echo 'export ANDROID_SDK_ROOT=/home/vishy/Android/Sdk/' >> ~/.bash_profile
 echo 'export PATH=/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/29.0.2' >> ~/.bash_profile
 
 /usr/bin:/usr/sbin:/bin:/sbin
@@ -23,3 +24,18 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.
 keytool -list -v -keystore modal.keystore -alias modal.me
 keytool -list -v -keystore my-release-key.keystore -alias modal
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore modal-release-unsigned.apk modal
+
+
+ionic cordova build android --release
+cp ./platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ./modal-release-unsigned.apk
+rm modal.apk
+/home/vishy/jdk/bin/jarsigner  -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore modal.keystore modal-release-unsigned.apk modal
+123456
+/home/vishy/Android/Sdk/build-tools/29.0.2/zipalign  -v 4 modal-release-unsigned.apk modal.apk
+
+adb logcat | grep -F "`adb shell ps | grep me.modal.modal  | tr -s [:space:] ' ' | cut -d' ' -f2`"
+
+adb logcat | grep -F "`adb shell ps | grep com.ionicframework.modaltrip  | tr -s [:space:] ' ' | cut -d' ' -f2`"
+
+
+keytool -export -rfc -keystore modal.keystore -alias modal -file upload_certificate.pem

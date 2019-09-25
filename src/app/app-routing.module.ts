@@ -22,7 +22,7 @@ const routes: Routes = [
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   },
   { path: 'experiences', loadChildren: './experience/experience.module#ExperiencePageModule' },
-  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
+  // { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'tabs/:id', loadChildren: './tabs/tabs.module#TabsPageModule' },
   // { path: 'guests', loadChildren: './guests/guests.module#GuestsPageModule' },
 
