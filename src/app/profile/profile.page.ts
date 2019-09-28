@@ -20,9 +20,10 @@ export class ProfilePage  {
         email:'',
         phone:'',
     };
-    private touchIdVal: any = { checked: false };
+    public touchIdVal: any = { checked: false };
     private data: any;
-    private tab = 'general';
+    public tab = 'general';
+    public c:any;
 
     constructor(
         private fbn: FirebaseAuthentication,
@@ -54,7 +55,7 @@ export class ProfilePage  {
         // this.user = $rootScope.user;
     }
 
-
+    showChargesModal() {}
 
     toggleEdit() {
         this.edit = !this.edit;
