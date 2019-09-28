@@ -17,7 +17,7 @@ export class DetailPage implements OnInit {
 
     // map: GoogleMap;
     private id: string;
-    private order: any;
+    public order: any;
     public currentTab = 1;
     public map: any;
     public markers = [];
