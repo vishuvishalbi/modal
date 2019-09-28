@@ -18,7 +18,7 @@ export class LoginPage {
 
     public phone = '';
     public text = 'Enter your phone number';
-    public code: number;
+    public code: any;
     public pin = '';
     public pinConfirm = '';
     public password = '';
@@ -170,7 +170,7 @@ export class LoginPage {
         });
         x.present();
         console.log('verify', this.id)
-        this.fbn.signInWithVerificationId(this.id, this.code).then(result => {
+        this.fbn.signInWithVerificationId(this.id, Number(this.code)).then(result => {
             x.dismiss();
             console.log('verify > signInWithVerificationId > then')
             this.step = "pin";
