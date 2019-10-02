@@ -12,16 +12,17 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
-  {
-    path: 'home',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
-  },
+  // {
+  //   path: 'home',
+  //   canActivate: [AuthGuard],
+  //   loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  // },
   {
     path: 'list',
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   },
   { path: 'experiences', loadChildren: './experience/experience.module#ExperiencePageModule' },
+  { path: 'home', loadChildren: './experience/experience.module#ExperiencePageModule' },
   // { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'tabs/:id', loadChildren: './tabs/tabs.module#TabsPageModule' },
   // { path: 'guests', loadChildren: './guests/guests.module#GuestsPageModule' },
