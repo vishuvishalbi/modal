@@ -1,5 +1,5 @@
 export const environment = {
-  API_URL: 'http://alpha.modal.me',
+  API_URL: 'http://booking.modal.me',
   START_VERIFY: '/authy/startVerify',
   START_ACTIVATE: '/startActivate',
   production: true,

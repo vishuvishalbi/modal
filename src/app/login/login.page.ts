@@ -117,10 +117,19 @@ export class LoginPage {
                         if (this.newUser.tmpPass) {
                             await this.sendOtp()
                             this.text = 'Enter your verification code';
+                        } else {
+                            this.step = "login";
+                            this.text = "Enter your PIN!";
                         }
+
                     } else {
-                        this.step = "login";
-                        this.text = "Enter your PIN!";
+                        x.dismiss()
+                        this.alert.create({
+                            header: 'Opps!',
+                            message: 'User not found!',
+                            buttons: ['OK']
+                        }).then(x => x.present());
+
                     }
                 } else {
                     x.dismiss()
@@ -148,13 +157,13 @@ export class LoginPage {
             console.log('sendOtp > verifyPhoneNumber > then')
             this.id = id;
             this.text = 'Enter your verification code';
-            console.log('verification id',id)
+            console.log('verification id', id)
             this.step = "code";
             x.dismiss();
         }).catch(async err => {
             console.log('sendOtp > verifyPhoneNumber > catch')
             this.step = 'phone';
-            this.text = 'Enter your phone numbber';
+            this.text = 'Enter your phone number';
             x.dismiss();
             this.alert.create({
                 header: 'Opps',
@@ -209,16 +218,16 @@ export class LoginPage {
             //         console.log('changesPassword > updatePassword > firebase > err', err);
             //     })
 
-            this.userServices.updatePassword({ uid: key, updates: {password: this.pin} }).subscribe(result => {
+            this.userServices.updatePassword({ uid: key, updates: { password: this.pin } }).subscribe(result => {
                 console.log('changesPassword > updatePassword > subscribe')
                 firebase.database().ref('users/' + key).update({ tmpPass: null })
-                .then(result => {
-                    this.password = this.pin;
-                    console.log('changesPassword > updatePassword > firebase > success');
-                    this.loginUser();
-                }).catch(err => {
-                    console.log('changesPassword > updatePassword > firebase > err', err);
-                })
+                    .then(result => {
+                        this.password = this.pin;
+                        console.log('changesPassword > updatePassword > firebase > success');
+                        this.loginUser();
+                    }).catch(err => {
+                        console.log('changesPassword > updatePassword > firebase > err', err);
+                    })
             }, err => {
                 console.log('changesPassword > updatePassword > error')
                 this.alert.create({
@@ -240,20 +249,20 @@ export class LoginPage {
 
     loginUser() {
         console.log('loginUser', this.newUser, this.password);
-        
+
         this.fbn.signInWithEmailAndPassword(this.newUser.email, this.password)
-        .then(result => {
-            console.log('loginUser > signInWithEmailAndPassword > success');
-            this.step = 'phone';
-            this.text = 'Enter your phone number';
-            this.phone = '';
-            this.password = '';
-            this.loginScreenChanges(true);
-            this.navCtrl.navigateForward(['experiences']);
-        })
-        .catch(err => {
-            console.log('loginUser > signInWithEmailAndPassword > err');
-            console.log('err',err);
+            .then(result => {
+                console.log('loginUser > signInWithEmailAndPassword > success');
+                this.step = 'phone';
+                this.text = 'Enter your phone number';
+                this.phone = '';
+                this.password = '';
+                this.loginScreenChanges(true);
+                this.navCtrl.navigateForward(['experiences']);
+            })
+            .catch(err => {
+                console.log('loginUser > signInWithEmailAndPassword > err');
+                console.log('err', err);
                 this.alert.create({
                     header: 'Opps!',
                     message: 'please try again later!',
