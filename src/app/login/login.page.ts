@@ -84,18 +84,6 @@ export class LoginPage {
 
     }
 
-    // clicked(number) {
-    //     if (this.phone.length < 10) {
-    //         this.phone += '' + number;
-    //     }
-    // }
-
-    // delete() {
-    //     if (this.phone.length < 10) {
-    //         this.phone.substring(0, this.phone.length - 1);
-    //     }
-    // }
-
     async lookupUser() {
         let x = await this.alert.create({
             header: 'Please wait!'
@@ -105,7 +93,7 @@ export class LoginPage {
             .database()
             .ref('users')
             .orderByChild('phone')
-            .equalTo(this.phone)
+            .equalTo(Number(this.phone))
             .on('value', async (result: any) => {
                 this.userObj = result.val();
                 console.log('this.userObj', this.userObj)
